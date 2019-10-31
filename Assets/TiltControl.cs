@@ -8,7 +8,9 @@ public class TiltControl : MonoBehaviour
     Rigidbody rb;
 
     public bool debug = true;
-    public int speed = 10;
+    public int speed = 20;
+
+    public Transform arrowIndicator;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,12 @@ public class TiltControl : MonoBehaviour
         }
     }
 
+    void LateUpdate() {
+        arrowIndicator.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        Vector3 scale = Vector3.one;
+        scale.z = dir.magnitude;
+        arrowIndicator.localScale = scale;
+    }
 
     void FixedUpdate() {
         rb.AddForce(dir * speed);
