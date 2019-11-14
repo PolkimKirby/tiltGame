@@ -12,10 +12,13 @@ public class TiltControl : MonoBehaviour
 
     public Transform arrowIndicator;
 
+    public Camera mainCam;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -41,5 +44,20 @@ public class TiltControl : MonoBehaviour
 
     void FixedUpdate() {
         rb.AddForce(dir * speed);
+    }
+    
+
+    void OnTriggerEnter(Collider other) {
+        if(other.gameObject.CompareTag("CustomCam")) {
+            mainCam.gameObject.SetActive(false);
+            other.transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
+    void OnTriggerExit(Collider other) {
+        if(other.gameObject.CompareTag("CustomCam")) {
+            mainCam.gameObject.SetActive(true);
+            other.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }
